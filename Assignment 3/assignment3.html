@@ -11,7 +11,7 @@
 
 
 
-<title>README</title>
+<title>Assignment 3. Working with Data Frame. Base R Style</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,15 +348,889 @@ display: none;
 
 
 
+<h1 class="title toc-ignore">Assignment 3. Working with Data Frame. Base
+R Style</h1>
 
 </div>
 
 
-<div id="math421" class="section level1">
-<h1>MATH421</h1>
-<p>This is my first Assignment: <a href="Assignment-1-_-Sample-RMarkdown.html">Assignment 1</a></p>
-<p>This is my second Assignment: <a href="assignment2.html">Assignment
-2</a></p>
+<p><strong><em>Note</em>:</strong> <em>This assignment practices working
+with Data Frame using Base R.</em></p>
+<p><strong><em>How to do it?</em></strong>:</p>
+<ul>
+<li><p>Open the Rmarkdown file of this assignment (<a href="assignment3.Rmd">link</a>) in Rstudio.</p></li>
+<li><p>Right under each question, insert a code chunk (you can use the
+hotkey <code>Ctrl + Alt + I</code> to add a code chunk) and code the
+solution for the question.</p></li>
+<li><p><code>Knit</code> the rmarkdown file (hotkey:
+<code>Ctrl + Alt + K</code>) to export an html.</p></li>
+<li><p>Publish the html file to your Githiub Page.</p></li>
+</ul>
+<p><strong><em>Submission</em></strong>: Submit the link on Github of
+the assignment to Canvas under Assignment 3.</p>
+<hr />
+<div id="problems" class="section level2">
+<h2>Problems</h2>
+<p><br />
+</p>
+<ol style="list-style-type: decimal">
+<li>Create the following data frame</li>
+</ol>
+<pre class="r"><code>df = data.frame(Rank = c(0,1,2,3),
+                Age = c(28,34,29,42),
+                Name = c(&#39;Tom&#39;, &#39;Jack&#39;, &#39;Steve&#39;, &#39;Ricky&#39;)
+                )
+
+df</code></pre>
+<pre><code>##   Rank Age  Name
+## 1    0  28   Tom
+## 2    1  34  Jack
+## 3    2  29 Steve
+## 4    3  42 Ricky</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Rank</th>
+<th align="left">Age</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0</td>
+<td align="left">28</td>
+<td align="left">Tom</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">34</td>
+<td align="left">Jack</td>
+</tr>
+<tr class="odd">
+<td align="left">2</td>
+<td align="left">29</td>
+<td align="left">Steve</td>
+</tr>
+<tr class="even">
+<td align="left">3</td>
+<td align="left">42</td>
+<td align="left">Ricky</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Use <code>read.csv</code> to import the Covid19 Vaccination data
+from WHO: <a href="https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv">link</a>.</p></li>
+<li><p>Show the names of the variables in the data</p></li>
+</ol>
+<pre class="r"><code>df1 = read.csv(&#39;https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv&#39;)
+names(df1)</code></pre>
+<pre><code>## [1] &quot;date&quot;   &quot;state&quot;  &quot;fips&quot;   &quot;cases&quot;  &quot;deaths&quot;</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>How many columns and rows the data have?</li>
+</ol>
+<pre class="r"><code>str(df1)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    61942 obs. of  5 variables:
+##  $ date  : chr  &quot;2020-01-21&quot; &quot;2020-01-22&quot; &quot;2020-01-23&quot; &quot;2020-01-24&quot; ...
+##  $ state : chr  &quot;Washington&quot; &quot;Washington&quot; &quot;Washington&quot; &quot;Illinois&quot; ...
+##  $ fips  : int  53 53 53 17 53 6 17 53 4 6 ...
+##  $ cases : int  1 1 1 1 1 1 1 1 1 2 ...
+##  $ deaths: int  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>How many missing values are there? Show the missing values by
+columns. What variable has the most number of missing values?</li>
+</ol>
+<pre class="r"><code>sum(is.na(df1))</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>colSums(is.na(df1))</code></pre>
+<pre><code>##   date  state   fips  cases deaths 
+##      0      0      0      0      0</code></pre>
+<pre class="r"><code>#There are no states that currently have missing values.</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>What is the class of the <code>date</code> column. Change the
+<code>date</code> columns to <code>date</code> type using the
+<code>as.Date</code> function. Show the new class of the
+<code>date</code> column.</li>
+</ol>
+<pre class="r"><code>class(df1$date)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>#Currently it is a &quot;character&quot; 
+str(df1)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    61942 obs. of  5 variables:
+##  $ date  : chr  &quot;2020-01-21&quot; &quot;2020-01-22&quot; &quot;2020-01-23&quot; &quot;2020-01-24&quot; ...
+##  $ state : chr  &quot;Washington&quot; &quot;Washington&quot; &quot;Washington&quot; &quot;Illinois&quot; ...
+##  $ fips  : int  53 53 53 17 53 6 17 53 4 6 ...
+##  $ cases : int  1 1 1 1 1 1 1 1 1 2 ...
+##  $ deaths: int  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+<pre class="r"><code>#To change this we have to use as.Date()
+df1$date= as.Date(df1$date)
+str(df1)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    61942 obs. of  5 variables:
+##  $ date  : Date, format: &quot;2020-01-21&quot; &quot;2020-01-22&quot; ...
+##  $ state : chr  &quot;Washington&quot; &quot;Washington&quot; &quot;Washington&quot; &quot;Illinois&quot; ...
+##  $ fips  : int  53 53 53 17 53 6 17 53 4 6 ...
+##  $ cases : int  1 1 1 1 1 1 1 1 1 2 ...
+##  $ deaths: int  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Capitalize the names of all the variables</li>
+</ol>
+<pre class="r"><code>names(df1) &lt;- c(&quot;Date&quot;, &quot;State&quot;, &quot;Fips&quot;, &quot;Cases&quot;, &quot;Deaths&quot;)
+str(df1)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    61942 obs. of  5 variables:
+##  $ Date  : Date, format: &quot;2020-01-21&quot; &quot;2020-01-22&quot; ...
+##  $ State : chr  &quot;Washington&quot; &quot;Washington&quot; &quot;Washington&quot; &quot;Illinois&quot; ...
+##  $ Fips  : int  53 53 53 17 53 6 17 53 4 6 ...
+##  $ Cases : int  1 1 1 1 1 1 1 1 1 2 ...
+##  $ Deaths: int  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Find the average number of cases per day. Find the maximum cases a
+day.</li>
+</ol>
+<pre class="r"><code> mean(df1$Cases, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 889830.1</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>How many states are there in the data?</li>
+</ol>
+<pre class="r"><code>length(table(df1$State))</code></pre>
+<pre><code>## [1] 56</code></pre>
+<pre class="r"><code>#There are 56 states in this data set.</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Create a new variable <code>weekdays</code> to store the weekday for
+each rows.</li>
+</ol>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<pre class="r"><code>df1$weekdays = weekdays(df1$Date)
+head(df1)</code></pre>
+<pre><code>##         Date      State Fips Cases Deaths  weekdays
+## 1 2020-01-21 Washington   53     1      0   Tuesday
+## 2 2020-01-22 Washington   53     1      0 Wednesday
+## 3 2020-01-23 Washington   53     1      0  Thursday
+## 4 2020-01-24   Illinois   17     1      0    Friday
+## 5 2020-01-24 Washington   53     1      0    Friday
+## 6 2020-01-25 California    6     1      0  Saturday</code></pre>
+<ol start="10" style="list-style-type: decimal">
+<li>Create the categorical variable <code>death2</code> variable taking
+the values as follows</li>
+</ol>
+<ul>
+<li><code>has_death</code> if there is a death that day</li>
+<li><code>no_death</code> if there is no death that day</li>
+</ul>
+<p>Find the frequency and relative frequency of <code>no_death</code>
+and <code>has_death</code>.</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>df1$death2 = case_when(df1$Deaths == 1 ~ &quot;has_death&quot;, 
+                          TRUE ~ &quot;no_death&quot;)
+prop.table(table(df1$death2))</code></pre>
+<pre><code>## 
+##   has_death    no_death 
+## 0.002647638 0.997352362</code></pre>
+<ol start="11" style="list-style-type: decimal">
+<li>Find the first quartile (Q1), second quartile (Q2) and and third
+quartile (Q3) of the variable <code>death</code>. (Hint: Use the
+<code>summary</code> function)</li>
+</ol>
+<pre class="r"><code>summary(df1$Deaths)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0    1171    5035   11779   14912  104277</code></pre>
+<pre class="r"><code>#First q = 1171
+#Second q = 5035
+#Third q = 14912</code></pre>
+<ol start="12" style="list-style-type: decimal">
+<li>Create the categorical variable <code>death3</code> variable taking
+the values as follows</li>
+</ol>
+<ul>
+<li><p><code>low_death</code> if the number of deaths smaller than the
+25 percentile (Q1)</p></li>
+<li><p><code>mid_death</code> if the number of deaths from Q1 to
+Q3</p></li>
+<li><p><code>high_death</code> if the number of deaths greater than
+Q3</p></li>
+</ul>
+<pre class="r"><code>df1$death3 = case_when(df1$Deaths &lt; 1171 ~ &quot;low_death&quot;, 
+                       df1$Deaths &gt; 1171 &amp; df1$Deaths &lt; 14912 ~ &quot;mid_death&quot;, 
+                       df1$Deaths &gt; 14912 ~ &quot;high_death&quot;)</code></pre>
+<ol start="13" style="list-style-type: decimal">
+<li>Find the average cases in Rhode Island in 2021</li>
+</ol>
+<pre class="r"><code>df2 &lt;- filter(df1, State == &#39;Rhode Island&#39;, year(Date) == 2021)
+
+mean(df2$Cases)</code></pre>
+<pre><code>## [1] 154438.5</code></pre>
+<pre class="r"><code>#Mean # of cases in Rhode Island is 154438.5</code></pre>
+<ol start="14" style="list-style-type: decimal">
+<li>Find the median cases by weekdays in Rhode Island in 2021</li>
+</ol>
+<pre class="r"><code>by(df2$Cases, df2$weekdays, mean)</code></pre>
+<pre><code>## df2$weekdays: Friday
+## [1] 154763.3
+## ------------------------------------------------------------ 
+## df2$weekdays: Monday
+## [1] 154145.6
+## ------------------------------------------------------------ 
+## df2$weekdays: Saturday
+## [1] 153295.4
+## ------------------------------------------------------------ 
+## df2$weekdays: Sunday
+## [1] 153295.4
+## ------------------------------------------------------------ 
+## df2$weekdays: Thursday
+## [1] 155665.3
+## ------------------------------------------------------------ 
+## df2$weekdays: Tuesday
+## [1] 154711.8
+## ------------------------------------------------------------ 
+## df2$weekdays: Wednesday
+## [1] 155186.7</code></pre>
+<ol start="15" style="list-style-type: decimal">
+<li>Compare the median cases in Rhode Island in June, July, August and
+September in 2021.</li>
+</ol>
+<pre class="r"><code># Create a variable month
+library(lubridate)
+df2$month &lt;- month(df2$Date, label = TRUE)
+
+
+# group months into fewer categories
+df2$month2 &lt;- case_when(df2$month %in% c(&#39;Jun&#39;,&#39;Jul&#39;,&#39;Aug&#39;,&#39;Sep&#39;)~ &#39;Jun-Sept&#39;)</code></pre>
+<ol start="16" style="list-style-type: decimal">
+<li>Find your own dataset, import it and implement the following
+functions on the data</li>
+</ol>
+<pre class="r"><code>setwd(&quot;C:/Users/student/OneDrive - Bryant University/Desktop/Stats w R/MATH421/Data&quot;)
+df &lt;-  read.csv(&#39;titanic_train.csv&#39;)
+head(df)</code></pre>
+<pre><code>##   PassengerId Survived Pclass
+## 1           1        0      3
+## 2           2        1      1
+## 3           3        1      3
+## 4           4        1      1
+## 5           5        0      3
+## 6           6        0      3
+##                                                  Name    Sex Age SibSp Parch
+## 1                             Braund, Mr. Owen Harris   male  22     1     0
+## 2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38     1     0
+## 3                              Heikkinen, Miss. Laina female  26     0     0
+## 4        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35     1     0
+## 5                            Allen, Mr. William Henry   male  35     0     0
+## 6                                    Moran, Mr. James   male  NA     0     0
+##             Ticket    Fare Cabin Embarked
+## 1        A/5 21171  7.2500              S
+## 2         PC 17599 71.2833   C85        C
+## 3 STON/O2. 3101282  7.9250              S
+## 4           113803 53.1000  C123        S
+## 5           373450  8.0500              S
+## 6           330877  8.4583              Q</code></pre>
+<pre class="r"><code>str(df)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    891 obs. of  12 variables:
+##  $ PassengerId: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Survived   : int  0 1 1 1 0 0 0 0 1 1 ...
+##  $ Pclass     : int  3 1 3 1 3 3 1 3 3 2 ...
+##  $ Name       : chr  &quot;Braund, Mr. Owen Harris&quot; &quot;Cumings, Mrs. John Bradley (Florence Briggs Thayer)&quot; &quot;Heikkinen, Miss. Laina&quot; &quot;Futrelle, Mrs. Jacques Heath (Lily May Peel)&quot; ...
+##  $ Sex        : chr  &quot;male&quot; &quot;female&quot; &quot;female&quot; &quot;female&quot; ...
+##  $ Age        : num  22 38 26 35 35 NA 54 2 27 14 ...
+##  $ SibSp      : int  1 1 0 1 0 0 0 3 0 1 ...
+##  $ Parch      : int  0 0 0 0 0 0 0 1 2 0 ...
+##  $ Ticket     : chr  &quot;A/5 21171&quot; &quot;PC 17599&quot; &quot;STON/O2. 3101282&quot; &quot;113803&quot; ...
+##  $ Fare       : num  7.25 71.28 7.92 53.1 8.05 ...
+##  $ Cabin      : chr  &quot;&quot; &quot;C85&quot; &quot;&quot; &quot;C123&quot; ...
+##  $ Embarked   : chr  &quot;S&quot; &quot;C&quot; &quot;S&quot; &quot;S&quot; ...</code></pre>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>##  [1] &quot;PassengerId&quot; &quot;Survived&quot;    &quot;Pclass&quot;      &quot;Name&quot;        &quot;Sex&quot;        
+##  [6] &quot;Age&quot;         &quot;SibSp&quot;       &quot;Parch&quot;       &quot;Ticket&quot;      &quot;Fare&quot;       
+## [11] &quot;Cabin&quot;       &quot;Embarked&quot;</code></pre>
+<pre class="r"><code>mean(df$Fare)</code></pre>
+<pre><code>## [1] 32.20421</code></pre>
+<pre class="r"><code>min(df$Fare)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>max(df$Fare)</code></pre>
+<pre><code>## [1] 512.3292</code></pre>
+<pre class="r"><code>table(df$Fare)</code></pre>
+<pre><code>## 
+##        0   4.0125        5   6.2375   6.4375     6.45   6.4958     6.75 
+##       15        1        1        1        1        1        2        2 
+##   6.8583     6.95    6.975   7.0458     7.05   7.0542    7.125   7.1417 
+##        1        1        2        1        7        2        4        1 
+##    7.225   7.2292     7.25   7.3125   7.4958   7.5208     7.55   7.6292 
+##       12       15       13        1        3        1        4        1 
+##     7.65    7.725   7.7292   7.7333   7.7375   7.7417     7.75    7.775 
+##        4        1        1        4        2        1       34       16 
+##   7.7875   7.7958      7.8   7.8292   7.8542    7.875   7.8792   7.8875 
+##        1        6        1        2       13        1        4        1 
+##   7.8958    7.925   8.0292     8.05   8.1125   8.1375   8.1583      8.3 
+##       38       18        1       43        1        1        1        1 
+##   8.3625   8.4042   8.4333   8.4583   8.5167   8.6542   8.6625   8.6833 
+##        1        1        1        1        1        1       13        1 
+##   8.7125     8.85        9   9.2167    9.225     9.35    9.475   9.4833 
+##        1        1        2        1        2        2        1        1 
+##      9.5   9.5875    9.825   9.8375   9.8417   9.8458  10.1708  10.4625 
+##        9        2        2        1        1        1        1        2 
+##     10.5  10.5167  11.1333  11.2417     11.5       12   12.275  12.2875 
+##       24        1        3        2        4        1        1        1 
+##    12.35   12.475   12.525    12.65   12.875       13  13.4167     13.5 
+##        3        4        1        1        1       42        1        4 
+##  13.7917  13.8583  13.8625       14  14.1083     14.4  14.4542  14.4583 
+##        1        1        1        1        1        2        7        3 
+##     14.5       15  15.0458    15.05     15.1  15.2458     15.5    15.55 
+##        7        1        1        1        1        5        8        1 
+##  15.7417    15.75    15.85     15.9       16     16.1     16.7     17.4 
+##        2        1        4        2        1        9        2        1 
+##     17.8       18    18.75  18.7875  19.2583     19.5  19.9667  20.2125 
+##        2        3        3        2        4        2        2        2 
+##    20.25   20.525   20.575       21   21.075  21.6792   22.025  22.3583 
+##        2        3        2        6        4        1        1        2 
+##   22.525       23    23.25    23.45       24    24.15  25.4667  25.5875 
+##        1        4        2        2        2        8        4        1 
+##   25.925  25.9292       26    26.25  26.2833  26.2875  26.3875    26.55 
+##        1        2       31        6        1        3        1       15 
+##       27  27.7208    27.75     27.9     28.5  28.7125       29   29.125 
+##        2        5        4        6        1        1        2        5 
+##     29.7       30  30.0708     30.5  30.6958       31   31.275  31.3875 
+##        3        6        2        5        2        3        7        4 
+##  32.3208     32.5       33     33.5  34.0208   34.375  34.6542       35 
+##        1        1        3        1        1        4        1        1 
+##     35.5    36.75  37.0042     38.5       39     39.4     39.6  39.6875 
+##        4        2        2        1        4        1        2        6 
+##   40.125  41.5792     42.4     46.9     47.1     49.5  49.5042       50 
+##        1        3        1        6        1        1        2        1 
+##  50.4958  51.4792  51.8625       52  52.5542     53.1       55  55.4417 
+##        1        1        2        7        3        5        2        1 
+##     55.9  56.4958  56.9292       57  57.9792     59.4   61.175  61.3792 
+##        2        7        2        2        2        1        1        1 
+##  61.9792  63.3583       65     66.6     69.3    69.55       71  71.2833 
+##        1        1        2        2        2        7        2        1 
+##     73.5    75.25  76.2917  76.7292  77.2875  77.9583  78.2667    78.85 
+##        5        1        1        3        2        3        2        2 
+##     79.2    79.65       80  81.8583  82.1708  83.1583   83.475     86.5 
+##        4        3        2        1        2        3        2        3 
+##  89.1042       90  91.0792     93.5  106.425    108.9 110.8833  113.275 
+##        2        4        2        2        2        2        4        3 
+##      120   133.65    134.5 135.6333 146.5208   151.55 153.4625 164.8667 
+##        4        2        2        3        2        4        3        2 
+## 211.3375    211.5 221.7792  227.525 247.5208  262.375      263 512.3292 
+##        3        1        1        4        2        2        4        3</code></pre>
+<pre class="r"><code>sum(is.na(df))</code></pre>
+<pre><code>## [1] 177</code></pre>
+<pre class="r"><code>colSums(is.na(df))</code></pre>
+<pre><code>## PassengerId    Survived      Pclass        Name         Sex         Age 
+##           0           0           0           0           0         177 
+##       SibSp       Parch      Ticket        Fare       Cabin    Embarked 
+##           0           0           0           0           0           0</code></pre>
+<pre class="r"><code>class(df)</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>cor(df$Survived, df$Age)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>by(df$Fare, df$Cabin, mean)</code></pre>
+<pre><code>## df$Cabin: 
+## [1] 19.15733
+## ------------------------------------------------------------ 
+## df$Cabin: A10
+## [1] 40.125
+## ------------------------------------------------------------ 
+## df$Cabin: A14
+## [1] 52
+## ------------------------------------------------------------ 
+## df$Cabin: A16
+## [1] 39.6
+## ------------------------------------------------------------ 
+## df$Cabin: A19
+## [1] 26
+## ------------------------------------------------------------ 
+## df$Cabin: A20
+## [1] 56.9292
+## ------------------------------------------------------------ 
+## df$Cabin: A23
+## [1] 30
+## ------------------------------------------------------------ 
+## df$Cabin: A24
+## [1] 50.4958
+## ------------------------------------------------------------ 
+## df$Cabin: A26
+## [1] 35.5
+## ------------------------------------------------------------ 
+## df$Cabin: A31
+## [1] 31
+## ------------------------------------------------------------ 
+## df$Cabin: A32
+## [1] 50
+## ------------------------------------------------------------ 
+## df$Cabin: A34
+## [1] 81.8583
+## ------------------------------------------------------------ 
+## df$Cabin: A36
+## [1] 0
+## ------------------------------------------------------------ 
+## df$Cabin: A5
+## [1] 34.6542
+## ------------------------------------------------------------ 
+## df$Cabin: A6
+## [1] 35.5
+## ------------------------------------------------------------ 
+## df$Cabin: A7
+## [1] 30.6958
+## ------------------------------------------------------------ 
+## df$Cabin: B101
+## [1] 512.3292
+## ------------------------------------------------------------ 
+## df$Cabin: B102
+## [1] 0
+## ------------------------------------------------------------ 
+## df$Cabin: B18
+## [1] 57.9792
+## ------------------------------------------------------------ 
+## df$Cabin: B19
+## [1] 33.5
+## ------------------------------------------------------------ 
+## df$Cabin: B20
+## [1] 57
+## ------------------------------------------------------------ 
+## df$Cabin: B22
+## [1] 71
+## ------------------------------------------------------------ 
+## df$Cabin: B28
+## [1] 80
+## ------------------------------------------------------------ 
+## df$Cabin: B3
+## [1] 211.3375
+## ------------------------------------------------------------ 
+## df$Cabin: B30
+## [1] 61.9792
+## ------------------------------------------------------------ 
+## df$Cabin: B35
+## [1] 69.3
+## ------------------------------------------------------------ 
+## df$Cabin: B37
+## [1] 29.7
+## ------------------------------------------------------------ 
+## df$Cabin: B38
+## [1] 26.55
+## ------------------------------------------------------------ 
+## df$Cabin: B39
+## [1] 49.5
+## ------------------------------------------------------------ 
+## df$Cabin: B4
+## [1] 27.7208
+## ------------------------------------------------------------ 
+## df$Cabin: B41
+## [1] 79.2
+## ------------------------------------------------------------ 
+## df$Cabin: B42
+## [1] 30
+## ------------------------------------------------------------ 
+## df$Cabin: B49
+## [1] 91.0792
+## ------------------------------------------------------------ 
+## df$Cabin: B5
+## [1] 211.3375
+## ------------------------------------------------------------ 
+## df$Cabin: B50
+## [1] 30.5
+## ------------------------------------------------------------ 
+## df$Cabin: B51 B53 B55
+## [1] 258.6646
+## ------------------------------------------------------------ 
+## df$Cabin: B57 B59 B63 B66
+## [1] 262.375
+## ------------------------------------------------------------ 
+## df$Cabin: B58 B60
+## [1] 247.5208
+## ------------------------------------------------------------ 
+## df$Cabin: B69
+## [1] 93.5
+## ------------------------------------------------------------ 
+## df$Cabin: B71
+## [1] 52
+## ------------------------------------------------------------ 
+## df$Cabin: B73
+## [1] 93.5
+## ------------------------------------------------------------ 
+## df$Cabin: B77
+## [1] 86.5
+## ------------------------------------------------------------ 
+## df$Cabin: B78
+## [1] 146.5208
+## ------------------------------------------------------------ 
+## df$Cabin: B79
+## [1] 86.5
+## ------------------------------------------------------------ 
+## df$Cabin: B80
+## [1] 146.5208
+## ------------------------------------------------------------ 
+## df$Cabin: B82 B84
+## [1] 79.2
+## ------------------------------------------------------------ 
+## df$Cabin: B86
+## [1] 79.2
+## ------------------------------------------------------------ 
+## df$Cabin: B94
+## [1] 0
+## ------------------------------------------------------------ 
+## df$Cabin: B96 B98
+## [1] 120
+## ------------------------------------------------------------ 
+## df$Cabin: C101
+## [1] 51.4792
+## ------------------------------------------------------------ 
+## df$Cabin: C103
+## [1] 26.55
+## ------------------------------------------------------------ 
+## df$Cabin: C104
+## [1] 30.5
+## ------------------------------------------------------------ 
+## df$Cabin: C106
+## [1] 30.5
+## ------------------------------------------------------------ 
+## df$Cabin: C110
+## [1] 52
+## ------------------------------------------------------------ 
+## df$Cabin: C111
+## [1] 27.75
+## ------------------------------------------------------------ 
+## df$Cabin: C118
+## [1] 29.7
+## ------------------------------------------------------------ 
+## df$Cabin: C123
+## [1] 53.1
+## ------------------------------------------------------------ 
+## df$Cabin: C124
+## [1] 27.525
+## ------------------------------------------------------------ 
+## df$Cabin: C125
+## [1] 153.4625
+## ------------------------------------------------------------ 
+## df$Cabin: C126
+## [1] 52
+## ------------------------------------------------------------ 
+## df$Cabin: C128
+## [1] 35
+## ------------------------------------------------------------ 
+## df$Cabin: C148
+## [1] 30
+## ------------------------------------------------------------ 
+## df$Cabin: C2
+## [1] 66.6
+## ------------------------------------------------------------ 
+## df$Cabin: C22 C26
+## [1] 151.55
+## ------------------------------------------------------------ 
+## df$Cabin: C23 C25 C27
+## [1] 263
+## ------------------------------------------------------------ 
+## df$Cabin: C30
+## [1] 30.5
+## ------------------------------------------------------------ 
+## df$Cabin: C32
+## [1] 135.6333
+## ------------------------------------------------------------ 
+## df$Cabin: C45
+## [1] 227.525
+## ------------------------------------------------------------ 
+## df$Cabin: C46
+## [1] 78.85
+## ------------------------------------------------------------ 
+## df$Cabin: C47
+## [1] 29.7
+## ------------------------------------------------------------ 
+## df$Cabin: C49
+## [1] 28.7125
+## ------------------------------------------------------------ 
+## df$Cabin: C50
+## [1] 83.1583
+## ------------------------------------------------------------ 
+## df$Cabin: C52
+## [1] 31.025
+## ------------------------------------------------------------ 
+## df$Cabin: C54
+## [1] 83.1583
+## ------------------------------------------------------------ 
+## df$Cabin: C62 C64
+## [1] 227.525
+## ------------------------------------------------------------ 
+## df$Cabin: C65
+## [1] 108.9
+## ------------------------------------------------------------ 
+## df$Cabin: C68
+## [1] 110.8833
+## ------------------------------------------------------------ 
+## df$Cabin: C7
+## [1] 164.8667
+## ------------------------------------------------------------ 
+## df$Cabin: C70
+## [1] 110.8833
+## ------------------------------------------------------------ 
+## df$Cabin: C78
+## [1] 90
+## ------------------------------------------------------------ 
+## df$Cabin: C82
+## [1] 211.5
+## ------------------------------------------------------------ 
+## df$Cabin: C83
+## [1] 83.475
+## ------------------------------------------------------------ 
+## df$Cabin: C85
+## [1] 71.2833
+## ------------------------------------------------------------ 
+## df$Cabin: C86
+## [1] 106.425
+## ------------------------------------------------------------ 
+## df$Cabin: C87
+## [1] 26.55
+## ------------------------------------------------------------ 
+## df$Cabin: C90
+## [1] 49.5042
+## ------------------------------------------------------------ 
+## df$Cabin: C91
+## [1] 153.4625
+## ------------------------------------------------------------ 
+## df$Cabin: C92
+## [1] 89.1042
+## ------------------------------------------------------------ 
+## df$Cabin: C93
+## [1] 90
+## ------------------------------------------------------------ 
+## df$Cabin: C95
+## [1] 221.7792
+## ------------------------------------------------------------ 
+## df$Cabin: C99
+## [1] 135.6333
+## ------------------------------------------------------------ 
+## df$Cabin: D
+## [1] 13.22223
+## ------------------------------------------------------------ 
+## df$Cabin: D10 D12
+## [1] 63.3583
+## ------------------------------------------------------------ 
+## df$Cabin: D11
+## [1] 77.9583
+## ------------------------------------------------------------ 
+## df$Cabin: D15
+## [1] 76.2917
+## ------------------------------------------------------------ 
+## df$Cabin: D17
+## [1] 25.9292
+## ------------------------------------------------------------ 
+## df$Cabin: D19
+## [1] 52.5542
+## ------------------------------------------------------------ 
+## df$Cabin: D20
+## [1] 78.2667
+## ------------------------------------------------------------ 
+## df$Cabin: D21
+## [1] 51.8625
+## ------------------------------------------------------------ 
+## df$Cabin: D26
+## [1] 77.2875
+## ------------------------------------------------------------ 
+## df$Cabin: D28
+## [1] 39.4
+## ------------------------------------------------------------ 
+## df$Cabin: D30
+## [1] 53.1
+## ------------------------------------------------------------ 
+## df$Cabin: D33
+## [1] 76.7292
+## ------------------------------------------------------------ 
+## df$Cabin: D35
+## [1] 52.5542
+## ------------------------------------------------------------ 
+## df$Cabin: D36
+## [1] 113.275
+## ------------------------------------------------------------ 
+## df$Cabin: D37
+## [1] 75.25
+## ------------------------------------------------------------ 
+## df$Cabin: D45
+## [1] 30
+## ------------------------------------------------------------ 
+## df$Cabin: D46
+## [1] 34.0208
+## ------------------------------------------------------------ 
+## df$Cabin: D47
+## [1] 26.2833
+## ------------------------------------------------------------ 
+## df$Cabin: D48
+## [1] 113.275
+## ------------------------------------------------------------ 
+## df$Cabin: D49
+## [1] 76.7292
+## ------------------------------------------------------------ 
+## df$Cabin: D50
+## [1] 32.3208
+## ------------------------------------------------------------ 
+## df$Cabin: D56
+## [1] 13
+## ------------------------------------------------------------ 
+## df$Cabin: D6
+## [1] 30
+## ------------------------------------------------------------ 
+## df$Cabin: D7
+## [1] 77.9583
+## ------------------------------------------------------------ 
+## df$Cabin: D9
+## [1] 77.9583
+## ------------------------------------------------------------ 
+## df$Cabin: E10
+## [1] 8.05
+## ------------------------------------------------------------ 
+## df$Cabin: E101
+## [1] 11.95
+## ------------------------------------------------------------ 
+## df$Cabin: E12
+## [1] 26.55
+## ------------------------------------------------------------ 
+## df$Cabin: E121
+## [1] 12.475
+## ------------------------------------------------------------ 
+## df$Cabin: E17
+## [1] 26.55
+## ------------------------------------------------------------ 
+## df$Cabin: E24
+## [1] 26.2875
+## ------------------------------------------------------------ 
+## df$Cabin: E25
+## [1] 26.3375
+## ------------------------------------------------------------ 
+## df$Cabin: E31
+## [1] 61.175
+## ------------------------------------------------------------ 
+## df$Cabin: E33
+## [1] 55
+## ------------------------------------------------------------ 
+## df$Cabin: E34
+## [1] 134.5
+## ------------------------------------------------------------ 
+## df$Cabin: E36
+## [1] 56.9292
+## ------------------------------------------------------------ 
+## df$Cabin: E38
+## [1] 26.55
+## ------------------------------------------------------------ 
+## df$Cabin: E40
+## [1] 134.5
+## ------------------------------------------------------------ 
+## df$Cabin: E44
+## [1] 55.9
+## ------------------------------------------------------------ 
+## df$Cabin: E46
+## [1] 51.8625
+## ------------------------------------------------------------ 
+## df$Cabin: E49
+## [1] 83.1583
+## ------------------------------------------------------------ 
+## df$Cabin: E50
+## [1] 55.4417
+## ------------------------------------------------------------ 
+## df$Cabin: E58
+## [1] 25.5875
+## ------------------------------------------------------------ 
+## df$Cabin: E63
+## [1] 38.5
+## ------------------------------------------------------------ 
+## df$Cabin: E67
+## [1] 79.65
+## ------------------------------------------------------------ 
+## df$Cabin: E68
+## [1] 79.65
+## ------------------------------------------------------------ 
+## df$Cabin: E77
+## [1] 10.5
+## ------------------------------------------------------------ 
+## df$Cabin: E8
+## [1] 53.1
+## ------------------------------------------------------------ 
+## df$Cabin: F E69
+## [1] 22.3583
+## ------------------------------------------------------------ 
+## df$Cabin: F G63
+## [1] 7.65
+## ------------------------------------------------------------ 
+## df$Cabin: F G73
+## [1] 7.65
+## ------------------------------------------------------------ 
+## df$Cabin: F2
+## [1] 26
+## ------------------------------------------------------------ 
+## df$Cabin: F33
+## [1] 11.33333
+## ------------------------------------------------------------ 
+## df$Cabin: F38
+## [1] 7.75
+## ------------------------------------------------------------ 
+## df$Cabin: F4
+## [1] 39
+## ------------------------------------------------------------ 
+## df$Cabin: G6
+## [1] 13.58125
+## ------------------------------------------------------------ 
+## df$Cabin: T
+## [1] 35.5</code></pre>
+<pre class="r"><code>df$Fare_Class &lt;- ifelse(df$Fare &lt; 45, 
+                        &#39;Cheap_Ticket&#39;,&#39;Expensive_Ticket&#39;) 
+df$Age_category = case_when(df$Age &lt; 20 ~ &quot;young&quot;, 
+                       df$Age &gt; 21 &amp; df$Age &lt; 45 ~ &quot;middle_aged&quot;, 
+                       df$Age &gt; 46 ~ &quot;old&quot;)</code></pre>
+<ul>
+<li>head</li>
+<li>str</li>
+<li>names</li>
+<li>mean, min, max</li>
+<li>table</li>
+<li>is.na</li>
+<li>colSums</li>
+<li>class</li>
+<li>cor</li>
+<li>by</li>
+<li>ifelse</li>
+<li>case_when</li>
+</ul>
+<ol start="17" style="list-style-type: decimal">
+<li>In the dataset in #16, practice the follows. You can reuse the code
+of 16.</li>
+</ol>
+<ul>
+<li>Create a categorical variable from a continuous variable</li>
+<li>From one categorical variable, create a new categorical variable
+with fewer categories</li>
+</ul>
+<p>If you do not have a data, you can use <a href="https://www.kaggle.com/competitions/titanic/overview">the titanic
+dataset</a>, which can be downloaded at <a href="../data/titanic.csv">this link</a></p>
+<pre class="r"><code>str(df)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    891 obs. of  14 variables:
+##  $ PassengerId : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Survived    : int  0 1 1 1 0 0 0 0 1 1 ...
+##  $ Pclass      : int  3 1 3 1 3 3 1 3 3 2 ...
+##  $ Name        : chr  &quot;Braund, Mr. Owen Harris&quot; &quot;Cumings, Mrs. John Bradley (Florence Briggs Thayer)&quot; &quot;Heikkinen, Miss. Laina&quot; &quot;Futrelle, Mrs. Jacques Heath (Lily May Peel)&quot; ...
+##  $ Sex         : chr  &quot;male&quot; &quot;female&quot; &quot;female&quot; &quot;female&quot; ...
+##  $ Age         : num  22 38 26 35 35 NA 54 2 27 14 ...
+##  $ SibSp       : int  1 1 0 1 0 0 0 3 0 1 ...
+##  $ Parch       : int  0 0 0 0 0 0 0 1 2 0 ...
+##  $ Ticket      : chr  &quot;A/5 21171&quot; &quot;PC 17599&quot; &quot;STON/O2. 3101282&quot; &quot;113803&quot; ...
+##  $ Fare        : num  7.25 71.28 7.92 53.1 8.05 ...
+##  $ Cabin       : chr  &quot;&quot; &quot;C85&quot; &quot;&quot; &quot;C123&quot; ...
+##  $ Embarked    : chr  &quot;S&quot; &quot;C&quot; &quot;S&quot; &quot;S&quot; ...
+##  $ Fare_Class  : chr  &quot;Cheap_Ticket&quot; &quot;Expensive_Ticket&quot; &quot;Cheap_Ticket&quot; &quot;Expensive_Ticket&quot; ...
+##  $ Age_category: chr  &quot;middle_aged&quot; &quot;middle_aged&quot; &quot;middle_aged&quot; &quot;middle_aged&quot; ...</code></pre>
+<pre class="r"><code>#Same from Above
+df$Age_category = case_when(df$Age &lt; 20 ~ &quot;young&quot;, 
+                       df$Age &gt; 21 &amp; df$Age &lt; 45 ~ &quot;middle_aged&quot;, 
+                       df$Age &gt; 46 ~ &quot;old&quot;)
+df$Lively = case_when(df$Age_category == &quot;young&quot; &amp;
+                        df$Age_category ==&quot;middle_aged&quot; ~ &quot;lively&quot;,
+                      df$Age_category == &quot;old&quot; ~ &quot;not_lively&quot;)</code></pre>
 </div>
 
 
