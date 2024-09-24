@@ -10,3 +10,10 @@ editor: visual
 * [Assignment 2](assignment2.html)
 
 * [Assignment 3](assignment3.html)
+
+
+**In-Class Notes**
+
+* [09/19/2024, Class 3, Data Wrangling with Base R](3_in_class_codes.html)
+
+* [09/24/2024, Class 4, Data Wrangling with dplr](4_in_class_codes.html)

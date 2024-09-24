@@ -36,12 +36,31 @@ df$Date_reported = as.Date(df$Date_reported)
 #  We can do calculation on Date variables:
 mean(df$Date_reported)
 
-df$Date_Reported[90000] - df$Date_reported[1]
+df$Date_Reported[90000] - df$Date_Reported[1]
 
 
 ```
 
-```{r, eval=FALSE}
+```{r}
+df$New_cases2 = ifelse(df$New_cases==0, "No", "Yes")
+table(df$New_cases2)
+
+#Can we create a new variable with three categories using ifelse function?
+##Extra Credit for next class :)
+
+df$New_cases3 <- ifelse(df$New_cases==0, "No New Cases",
+             ifelse(df$New_cases > 0 & df$New_cases < 100,"Less than 100 Cases", 
+                            "Many New Cases"))
+
+```
 
 
+```{r}
+#Create New_cases3 using the function case_when from dplyr package
+library(dplyr)
+install.packages("dplyr")
+df$New_cases3 = case_when(df$New_cases <22 ~ "Low", 
+                          df$New_cases < 486 ~ "Medium", 
+                          TRUE ~ "High")
+table(df$New_cases3)
 ```

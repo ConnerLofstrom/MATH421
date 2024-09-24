@@ -1,0 +1,50 @@
+---
+title: "4_Data_Wrangling_In-class_Notes_09242024"
+author: "Conner Lofstrom"
+date: "2024-09-24"
+output: html_document
+---
+Data Wrangling In-class Notes
+
+Basic Commands to get started: 
+
+```{r}
+#Check if you've installed it
+library(tidyverse)
+#Install
+install.packages("tidyverse")
+#Check Version
+version
+```
+1. Loading in the Data
+```{r}
+df <- read_csv('https://covidtracking.com/data/download/all-states-history.csv')
+str(df)
+# Takes the data and best recognizes the field to save you some time and also faster than read.csv(), more organized
+
+df2 <- read.csv('https://covidtracking.com/data/download/all-states-history.csv')
+# Reads in data but does not assume the field type
+```
+Difference between Base packages and tidyverse:
+* Pipe (%>%)
+* Hotkey (Ctrl + Shift + M)
+
+
+Calculations using Pipe (%>%):
+```{r}
+mean(df$death) 
+# Going to come out as NA because of missing values
+
+mean(df$death, na.rm = TRUE) 
+# Will give you an answer because it looks for where there are values
+### Eat, I, go
+
+df$death %>% mean(na.rm = TRUE)
+#I eat 
+
+df$death %>% mean(na.rm = TRUE) %>%  log
+#I go and eat
+```
+
+
+
