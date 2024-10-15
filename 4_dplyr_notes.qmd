@@ -1,0 +1,63 @@
+---
+title: "4_dplyr_notes"
+format: html
+editor: visual
+---
+
+## Dplyr Data Wrangling Package (Similar to SQL in R)
+
+```{r}
+library(tidyverse)
+library(dplyr)
+
+df = read_csv("C:/Users/student/OneDrive - Bryant University/Desktop/Stats w R/MATH421/Data/us-states.csv")
+str(df)
+```
+
+```{r}
+df %>% 
+  select(state, deaths) %>% 
+  filter(state == "Rhode Island") %>% 
+  summarise(average_death = mean(deaths, na.rm = TRUE))
+```
+
+```{r}
+df %>%    
+        select(state, deaths) %>%    
+        filter(state == "Arizona") %>%    
+        summarise(total_death = sum(deaths, na.rm = TRUE))
+```
+
+```{r}
+df %>% 
+  select(state, date, deaths) %>% 
+  filter(date >= "2021-01-01", date < "2022-01-01") %>% 
+  filter(state == "Rhode Island" | state == "Massachusetts" | state == "Connecticut") %>% 
+  group_by(state) %>% 
+  summarise(average_death = mean(deaths, na.rm=TRUE)) %>% 
+  arrange(-average_death)
+```
+
+```{r}
+#Using by()
+#Create a new wd column
+df$wd = weekdays(df$date)
+
+# filtering out RI
+df1 = df[df$state=="RI",]
+
+#calculate by groups
+#this wont work with NAs
+by(data = df1$deaths, INDICES = df1$wd,FUN = median(df1$deaths, na.rm=TRUE))
+
+```
+
+```{r}
+#Applying multiple different actions to a Data frame
+df %>% 
++     mutate(wd2 = weekdays(date)) %>% 
++     filter(state == "RI") %>% 
++     group_by(wd2) %>% 
++     summarise(median_death_RI = median(death,na.rm=TRUE)) %>% 
++     arrange(-median_death_RI)
+```

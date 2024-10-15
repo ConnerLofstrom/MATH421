@@ -93,6 +93,7 @@ Check missing data with `sum(is.na())`, `colSums((is.na))`
 ```{r, eval=FALSE}
 setwd("C:/Users/sonou/Downloads")
 df <-  read.csv('WHO-COVID-19-global-data.csv')
+
 ```
 
 ---

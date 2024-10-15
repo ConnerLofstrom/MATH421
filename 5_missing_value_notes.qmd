@@ -1,0 +1,71 @@
+---
+title: "5_missing_value_notes"
+format: html
+editor: visual
+---
+
+## 5_Missing_value_notes
+
+-   When do we need to handle missing values
+
+    -   When you know they are missing
+
+    -   when building predictive models
+
+    -   Other cases?
+
+-   Checking the NAs
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+df <- read_csv('https://bryantstats.github.io/math421/data/titanic_missing.csv')
+```
+
+```{r}
+sum(is.na(df))
+```
+
+```{r}
+#Missing value columns
+colSums(is.na(df))
+```
+
+```{r, eval=FALSE}
+is.na(df)
+```
+
+-   **Steps to Handle missing values**
+
+    -   Step 1: Identify the forms of Missing Values (Unknown, Missing, 9999)
+
+    -   Step 2: Convert them to NA
+
+    -   Step 3: Handle it
+
+        -   Approach 1: Remove rows that have any NAs
+
+        -   Approach 2: Fill NAs with the previous or next value of the column
+
+        -   Approach 3: Replace by the mean, majority or a predicted value
+
+```{r}
+# Checking Missing Data that uses another word than just "N/A"
+colSums(df=="Unknown", na.rm = TRUE)
+```
+
+```{r}
+# Way to convert back to "N/A"
+df2 <- replace(df,df == 'Unkown' |
+                  df == 'Missing' |
+                  df == 'Not Available', NA)
+colSums(df2=="Missing", na.rm = TRUE)
+
+#Another way to do convert to N/A . . . Supposedly not the same as the previous
+df3 = replace(df, df %in% c("Unknown", "Missing", "Not Available"), NA)
+colSums(df3=="Missing", na.rm = TRUE)
+```
+
+```{r}
+colSums(df2=="Missing", na.rm = TRUE)
+
+```
