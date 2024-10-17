@@ -1,0 +1,140 @@
+
+---
+output: # rmarkdown::github_document
+  html_document:
+    theme: cerulean
+    toc: true
+  pdf_document: default
+  word_document: default
+title: "Assignment 5: Part 1"
+---
+
+***How to do it?***: 
+
+- Open the Rmarkdown file of this assignment ([link](assignment5_part1.Rmd)) in Rstudio. 
+
+- Right under each **question**, insert  a code chunk (you can use the hotkey `Ctrl + Alt + I` to add a code chunk) and code the solution for the question. 
+
+- `Knit` the rmarkdown file (hotkey: `Ctrl + Alt + K`) to export an html.  
+
+-  Publish the html file to your Githiub Page. 
+
+***Submission***: Submit the link on Github of the assignment to Canvas. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+-------
+
+**The data:** 
+
+This assignment works with the Adult Census Data that can be downloaded at [this link.](https://bryantstats.github.io/math421/data/adult_census_missing.csv)
+
+-------
+
+**Questions**
+
+1. Use `read_csv` to import the data.  Show the number of NAs for each columns.   
+```{r}
+library(VIM)
+library(tidyverse)
+df <- read_csv("C:/Users/student/OneDrive - Bryant University/Desktop/Stats w R/MATH421/Data/adult_census_missing.csv")
+```
+
+2. Using function `aggr` the VIM package to plot the number of NAs for each column. 
+```{r}
+aggr(df)
+```
+
+3. Find other forms of missing values. Hint: You can use the `table` function to check if there are suspicious categories (Unknown, for example) in a variable. What all other forms of missing values shown in the data.
+
+```{r}
+table(df$age)
+table(df$workclass)
+table(df$education)
+table(df$marital.status)
+table(df$occupation)
+table(df$relationship)
+table(df$sex)
+table(df$capital.gain)
+table(df$native.country)
+
+colSums(is.na(df))
+colSums(df=='?' |
+        df =='Not Known'
+        , na.rm = TRUE)
+
+```
+
+4. Replace all the forms of missing values found to NA
+```{r}
+df <- replace(df, df=='?' |
+              df =='Not Known'
+              , NA)
+```
+
+5. Replot the number of NAs for each column. 
+```{r}
+aggr(df)
+#colSums(is.na(df))
+#table(df$workclass)
+```
+
+6. Approach 1 to handle NAs: remove all rows that have any NAs. Save the dataset after removing as a different data. The original data is unchanged (still have NAs).  How many rows left after removing?
+```{r}
+df1 = drop_na(df)
+colSums(is.na(df1))
+#str(df1)
+#32,561 - 29,865 = 2,696 rows where dropped
+# 29,865 rows remaining
+```
+
+7. Approach 2 to handle NAs:  Fill all the NAs with the previous or next value. (Hint: Using `fill` function).  Save the dataset after filling as a different data. The original data is unchanged (still have NAs). 
+```{r}
+df2 = df %>%  fill(names(df), .direction = 'updown')
+colSums(is.na(df2))
+```
+
+8. Approach 3 to handle NAs: For numeric variable, replace the NAs by the median.  For categorical variables, replace the NAs to the majority. 
+```{r}
+df3 = df
+str(df3)
+colSums(is.na(df))
+#median = median(names(df))
+#Categorical Variables: workclass, education, marital.status, occupation, relationship, sex, native.country
+majority_workclass <- names(which.max(table(df3$workclass)))
+df3$workclass <- replace_na(df3$workclass, majority_workclass)
+
+majority_education <- names(which.max(table(df3$education)))
+df3$education <- replace_na(df3$education, majority_education)
+
+majority_maritalstat <- names(which.max(table(df3$marital.status)))
+df3$marital.status <- replace_na(df3$marital.status, majority_maritalstat)
+
+majority_occupation <- names(which.max(table(df3$occupation)))
+df3$occupation <- replace_na(df3$occupation, majority_occupation)
+
+majority_relationship <- names(which.max(table(df3$relationship)))
+df3$relationship <- replace_na(df3$relationship, majority_relationship)
+
+majority_sex <- names(which.max(table(df3$sex)))
+df3$sex <- replace_na(df3$sex, majority_sex)
+
+majority_nativecountry <- names(which.max(table(df3$native.country)))
+df3$native.country <- replace_na(df3$native.country, majority_nativecountry)
+
+#Numeric Variables: Age, capital.gain
+median_age = median(df3$age, na.rm = TRUE)
+df3$age = replace_na(df3$age, median_age)
+
+median_capitalGain = median(df3$capital.gain, na.rm = TRUE)
+df3$capital.gain = replace_na(df3$capital.gain, median_capitalGain)
+
+colSums(is.na(df3))
+```
+
+
+
+
+
