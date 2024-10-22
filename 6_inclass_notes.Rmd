@@ -1,0 +1,19 @@
+---
+title: "6_inclass_notes"
+author: "Conner Lofstrom"
+date: "2024-10-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(lubridate)
+
+df <- read_csv('https://bryantstats.github.io/math421/data/titanic.csv')
+
+```
+
