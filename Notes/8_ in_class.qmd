@@ -1,0 +1,36 @@
+---
+title: "8_in_classnotes"
+format: html
+editor: visual
+---
+
+```{r}
+#Setup
+# Loads the library
+library(gganimate)
+# Other libraries that will be used
+library(ggplot2)
+library(tidyverse)
+library(knitr)
+```
+
+```{r}
+df <- read_csv('https://bryantstats.github.io/math421/data/titanic.csv')
+df <- df %>% 
+  mutate(Survived = as.character(Survived),
+         Pclass = as.character(Pclass))
+```
+
+```{r}
+df %>% ggplot(aes(x = Sex,
+                  fill=Survived))+
+  geom_bar(position = 'fill')
+```
+
+```{r}
+#Dynamic Plot 
+df %>% ggplot(aes(x = Sex,
+                  fill=Survived))+
+  geom_bar(position = 'fill')+
+  transition_states(Pclass)
+```
