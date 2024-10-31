@@ -3,24 +3,27 @@ title: "Conner's MATH421: Intro To Coding with R"
 format: html
 editor: visual
 ---
+
 **Assignments**
 
-* [Assignment 1](Assignment 1/Assignment-1-_-Sample-RMarkdown.html)
+-   [Assignment 1](Assignment%201/Assignment-1-_-Sample-RMarkdown.html)
 
-* [Assignment 2](Assignment 2/assignment2.html)
+-   [Assignment 2](Assignment%202/assignment2.html)
 
-* [Assignment 3](Assignment 3/assignment3.html)
+-   [Assignment 3](Assignment%203/assignment3.html)
 
-* [Assignment 4](Assignment 4/assignment4.html)
+-   [Assignment 4](Assignment%204/assignment4.html)
 
-* [Assignment 5 Part 1](Assignment 5/assignment5_part1.html)
+-   [Assignment 5 Part 1](Assignment%205/assignment5_part1.html)
 
-* [Assignment 5 Part 2](Assignment 5/assignment5_part2.html)
+-   [Assignment 5 Part 2](Assignment%205/assignment5_part2.html)
+
+-   [Assignment 6](assignment6.html)
 
 **In-Class Notes**
 
-* [09/19/2024, Class 3, Data Wrangling with Base R](Assignment 3/3_in_class_codes.html)
+-   [09/19/2024, Class 3, Data Wrangling with Base R](Assignment%203/3_in_class_codes.html)
 
-* [09/24/2024, Class 4, Data Wrangling with dplyr](Assignment 4/4_in_class_codes.html)
+-   [09/24/2024, Class 4, Data Wrangling with dplyr](Assignment%204/4_in_class_codes.html)
 
-* [09/26/2024, Class 5, Data Wrangling with dplyr](Assignment 4/4_dplyr_notes.html)
+-   [09/26/2024, Class 5, Data Wrangling with dplyr](Assignment%204/4_dplyr_notes.html)
