@@ -1,4 +1,3 @@
-
 ---
 title: "Assignment 7 - Visualization - Some aspects of ggplot2"
 format: html
@@ -27,26 +26,177 @@ Use the data of your own. Produce the following types of plots and comment on ea
 
 ------------------------------------------------------------------------
 
+-   Load In Data
+
+    ```{r}
+    library(tidyverse)
+    library(ggplot2)
+    library(dplyr)
+    df <- read_csv('https://bryantstats.github.io/math421/data/adult_census.csv')
+    ```
+
 1.  Make a plot using `facet_wrap` by one categorical variable (`facet_wrap(~variable1)`)
+
+    ```{r}
+    df %>% 
+      filter(native.country == 'Canada') %>% 
+      ggplot()+ 
+      geom_point(mapping=aes(x=age, y=hours.per.week))+
+      facet_wrap(~sex) + 
+      labs(
+        title = "Relationship between age and hours per week",
+        x = "Age",      # X-axis label
+        y = "Hour Per Week",   #Y-axis label
+        caption = "Finding, Men tend to have a wider range of hours worked throughout all Ages than females" 
+      )
+    ```
 
 2.  Make a plot using `facet_wrap` by two categorical variables (`facet_wrap(~variable1+variable2)`)
 
+    ```{r}
+    filtered_countries = c("Canada", "Philippines")
+    df %>% 
+      filter(native.country %in% filtered_countries) %>% 
+      ggplot()+ 
+      geom_point(mapping=aes(x=age, y=hours.per.week))+
+      facet_wrap(~sex + native.country) + 
+      labs(
+        title = "Relationship between age and hours per week",
+        x = "Age",      # X-axis label
+        y = "Hour Per Week",   #Y-axis label
+        caption = "Finding, women for both countries tend to work less per week" 
+      )
+    ```
+
 3.  Make a plot using `position ='dodge'`.
+
+    ```{r}
+    df %>% ggplot()+ 
+      geom_bar(mapping=aes(x=sex, fill=income), 
+               position = 'dodge') +
+    labs(
+        title = "Sex by Income",
+        x = "Sex",      # X-axis label
+        y = "# of People with Different Incomes",   #Y-axis label
+        caption = "Finding: Men typically work more and also tend to have higher incomes" 
+      )
+    ```
 
 4.  Make a plot using `position ='fill'`.
 
+    ```{r}
+    df %>% ggplot()+ 
+      geom_bar(mapping=aes(x=sex, fill=income), 
+               position = 'fill') +
+    labs(
+        title = "Sex by Income",
+        x = "Sex",      # X-axis label
+        y = "# of People with Different Incomes",   #Y-axis label
+        caption = "Finding: In Percentages, Men typically tend to have higher incomes than females" 
+      )
+    ```
+
 5.  Make a plot using `geom_col`.
+
+    ```{r}
+    df %>% 
+      filter(native.country %in% filtered_countries)%>% 
+      group_by(native.country, age, sex) %>% 
+      summarise(average_hoursWorked= mean(hours.per.week, na.rm=TRUE)) %>% 
+      ggplot()+ 
+      geom_col(mapping=aes(x=sex, y=average_hoursWorked)) +
+    labs(
+        title = "Hours per week by Sex",
+        x = "Sex",      # X-axis label
+        y = "Hours per week",   #Y-axis label
+        caption = "Finding: Men typically work more in the countries selected" 
+      )
+    ```
 
 6.  Change the theme of one of your plots.
 
+    ```{r}
+    df %>% ggplot()+ 
+      geom_bar(mapping=aes(x=sex, fill=income), 
+               position = 'fill') +
+      theme_bw() + 
+    labs(
+        title = "Sex by Income",
+        x = "Sex",      # X-axis label
+        y = "# of People with Different Incomes",   #Y-axis label
+        caption = "Finding: In Percentages, Men typically tend to have higher incomes than females" 
+      )
+    ```
+
 7.  Make a plot using combo filter + ggplot
 
+    ```{r}
+    df %>% 
+      filter(native.country %in% filtered_countries)%>% 
+      ggplot()+ 
+      geom_bar(mapping=aes(x=sex, fill=income), 
+               position = 'fill') +
+    labs(
+        title = "Sex by Income",
+        x = "Sex",      # X-axis label
+        y = "# of People with Different Incomes",   #Y-axis label
+        caption = "Finding: In Percentages, Men typically tend to have higher incomes than females" 
+      )
+    ```
+
 8.  Make a plot using combo group_by + summarise + geom_col
+
+    ```{r}
+    df %>% 
+      filter(age >= 20, age <= 40, native.country %in% filtered_countries)%>% 
+      group_by(native.country, age, sex) %>% 
+      summarise(average_hoursWorked= mean(hours.per.week, na.rm=TRUE)) %>% 
+      ggplot()+ 
+      geom_col(mapping=aes(x=sex, y=average_hoursWorked)) +
+    labs(
+        title = "Hours per week by Sex for Ages 20-50",
+        x = "Sex",      # X-axis label
+        y = "Hours per week",   #Y-axis label
+        caption = "Finding: Men typically work on average more in the countries selected. However, it is less than the overall average" 
+      )
+    ```
 
 9.  Save a plot and put a link of the plot to your Github Webpage. To link a plot `abc.png` you just need to insert the following on the README.md
 
 ```{r, eval=FALSE}
-[Link to the plot](abc.png)
+avgHoursWorked_bySex_CanadaPhil_forAge_20_40 <- df %>% 
+  filter(age >= 20, age <= 40, native.country %in% filtered_countries) %>% 
+  group_by(native.country, sex) %>% 
+  summarise(average_hoursWorked = mean(hours.per.week, na.rm = TRUE)) %>% 
+  ggplot() + 
+  geom_col(mapping = aes(x = sex, y = average_hoursWorked, fill = native.country), position = "dodge") +
+  labs(
+    title = "Hours per Week by Sex for Ages 20-40 in Selected Countries",
+    x = "Sex",      
+    y = "Average Hours per Week",   
+    caption = "Finding: Men typically work more on average in the selected countries, but less than the overall average."
+  ) +
+  theme_minimal()
+
+# Define the file path and name for the saved plot
+file_path <- "avgHoursWorked_bySex_CanadaPhil_forAge_20_40.png"
+
+# Save the plot as a PNG file
+ggsave(
+  filename = file_path,
+  plot = avgHoursWorked_bySex_CanadaPhil_forAge_20_40, 
+  width = 8,        # Width of the plot in inches
+  height = 6,       # Height of the plot in inches
+  dpi = 300         # Resolution of the plot
+)
+
+# Print a message to confirm the file was saved
+cat("Plot saved as:", file_path)
+
+ggsave(filename = "C:/Users/student/OneDrive - Bryant University/Fall 2024/MATH421/MATH421/Data/Images/avgHoursWorked_bySex_CanadaPhil_forAge_20_40.png", plot = avgHoursWorked_bySex_CanadaPhil_forAge_20_40)
+
+
+#[Link to the plot Assignment7](abc.png)
 ```
 
 10. In this question, we will use the Covid19 vaccination data for the US. The data and data dictionary can be found at the below link:
@@ -55,6 +205,7 @@ Use the data of your own. Produce the following types of plots and comment on ea
 
 ```{r}
 library(tidyverse)
+library(lubridate)
 df <- read_csv('https://bryantstats.github.io/math421/data/vaccinations-by-manufacturer.csv')
 ```
 
@@ -66,14 +217,52 @@ df %>%
   ggplot()+
   geom_point(mapping = aes(x = date, 
                                     y = total_vaccinations, 
-                                    color = vaccine))
+                                    color = vaccine)) + 
+  labs(
+    title = "Vaccinations over time in the US",
+    x = "Date",      # X-axis label
+    y = "# of vaccinations",   #Y-axis label
+    caption = "Pfizer/BioNTech was found to have the most vaccinations among the three brands" 
+  )
 ```
 
 Do the follows.
 
 -   Use `geom_point` to compare the vaccines used by date in Argentina in 2022.
 
+    ```{r}
+    df$year <- year(df$date)
+    df %>% 
+      filter(location=='Argentina', year == 2022) %>% 
+      ggplot()+
+      geom_point(mapping = aes(x = date, 
+                                        y = total_vaccinations, 
+                                        color = vaccine))+ 
+      labs(
+        title = "Vaccinations over time in Argentina during 2022",
+        x = "Month",      # X-axis label
+        y = "# of vaccinations",   #Y-axis label
+        caption = "Sinopharm/Beijing vaccine was found to have the most vaccinations among the three brands" 
+      )
+    ```
+
 -   Change `geom_point` to `geom_line` in the above codes to have the corresponding line plots.
+
+    ```{r}
+    df$year <- year(df$date)
+    df %>% 
+      filter(location=='Argentina', year == 2022) %>% 
+      ggplot()+
+      geom_line(mapping = aes(x = date, 
+                                        y = total_vaccinations, 
+                                        color = vaccine))+ 
+      labs(
+        title = "Vaccinations over time in Argentina during 2022",
+        x = "Month",      # X-axis label
+        y = "# of vaccinations",   #Y-axis label
+        caption = "Sinopharm/Beijing vaccine was found to have the most vaccinations among the three brands" 
+      )
+    ```
 
 11. (Using the same dataset as in 10.) Sometime we need to do some calculations on the data before plotting. For example, the below codes is to compare the total vaccines (including all types of vaccines) by date between the US and the EU
 
@@ -89,7 +278,13 @@ d1 %>%
   ggplot()+
   geom_point(mapping=aes(x=date, 
                          y=total_vac2, 
-                         color=location))
+                         color=location))+ 
+  labs(
+    title = "Vaccinations over time comparing EU and US",
+    x = "Date",      # X-axis label
+    y = "# of vaccinations",   #Y-axis label
+    caption = "Finding: EU has significantly more vaccines than the US" 
+  )
 ```
 
 Notice that the above codes could be piped in one
@@ -102,11 +297,52 @@ df %>%
   ggplot()+
   geom_point(mapping=aes(x=date, 
                          y=total_vac2, 
-                         color=location))
+                         color=location))+ 
+  labs(
+    title = "Vaccinations over time comparing EU and US",
+    x = "Date",      # X-axis label
+    y = "# of vaccinations",   #Y-axis label
+    caption = "Finding: EU has significantly more vaccines than the US" 
+  )
 ```
 
 Do the follows.
 
 -   Use `geom_point` compare the total vaccines (including all types of vaccines) by date between countries/regions in Asia
 
+    ```{r}
+    df %>% 
+      filter(location %in% c('Hong Kong', 'Japan', 'Nepal', 'South Korea')) %>% 
+      group_by(date, location) %>% 
+      summarise(total_vac2=sum(total_vaccinations, na.rm=TRUE)) %>% 
+      ggplot()+
+      geom_point(mapping=aes(x=date, 
+                             y=total_vac2, 
+                             color=location))+ 
+      labs(
+        title = "Vaccinations over time in Asia",
+        x = "Date",      # X-axis label
+        y = "# of vaccinations",   #Y-axis label
+        caption = "Finding: Japan leads the Asian countries with significantly more vaccines" 
+      )
+    ```
+
 -   Use `geom_point` compare the total vaccines (including all types of vaccines) by date between countries/regions in South America in 2021
+
+```{r}
+df$year <- year(df$date)
+df %>% 
+  filter(location %in% c('Argentina', 'Chile', 'Ecuador', 'Peru'), year == 2021) %>% 
+  group_by(date, location) %>% 
+  summarise(total_vac2=sum(total_vaccinations, na.rm=TRUE)) %>% 
+  ggplot()+
+  geom_point(mapping=aes(x=date, 
+                         y=total_vac2, 
+                         color=location))+ 
+  labs(
+    title = "Vaccinations over time in South America during 2021",
+    x = "Month",      # X-axis label
+    y = "# of vaccinations",   #Y-axis label
+    caption = "Finding: Argentina has significantly more vaccines than the other Latin American countries" 
+  )
+```
