@@ -26,6 +26,9 @@ editor: visual
 
         ![This graph displays the average hours worked by Sex for Canada and the Philippines](avgHoursWorked_bySex_CanadaPhil_forAge_20_40.png)
 
+-   [Assignment 8](Assignment%208/assignment8.html)
+-   [Assignment 9](Assignment%209/assignment9.html)
+
 **In-Class Notes**
 
 -   [09/19/2024, Class 3, Data Wrangling with Base R](Assignment%203/3_in_class_codes.html)
