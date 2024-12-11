@@ -1,5 +1,5 @@
 ---
-title: "index2"
+title: "MATH 421 Index File"
 format: html
 editor: visual
 ---
@@ -35,6 +35,17 @@ editor: visual
 -   [Assignment 11](assignment11.html)
 
 -   [Assignment 12](assignment12.html)
+
+-   [Midterm Presentation](Midterm_presentation.html)
+
+-   [Midterm Code](midterm_tab.html)
+
+-   [Conner Final Doc](final.html)
+
+-   [Final Flex Template](flex_template.html)
+
+-   [Prima Indians Diabetes Dataset](PimaIndiansDiabetes.csv)
+
 
 **In-Class Notes**
 
